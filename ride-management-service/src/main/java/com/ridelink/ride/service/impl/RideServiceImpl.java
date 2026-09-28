@@ -2,10 +2,12 @@ package com.ridelink.ride.service.impl;
 
 import com.ridelink.ride.document.Location;
 import com.ridelink.ride.document.Ride;
+import com.ridelink.ride.dto.AssignDriverRequest;
 import com.ridelink.ride.dto.CreateRideRequest;
 import com.ridelink.ride.dto.LocationDto;
 import com.ridelink.ride.dto.RideResponse;
 import com.ridelink.ride.enums.RideStatus;
+import com.ridelink.ride.exception.InvalidRideStatusException;
 import com.ridelink.ride.exception.RideNotFoundException;
 import com.ridelink.ride.repository.RideRepository;
 import com.ridelink.ride.service.RideService;
@@ -45,6 +47,23 @@ public class RideServiceImpl implements RideService {
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new RideNotFoundException("Ride with ID " + id + " was not found"));
         return mapToRideResponse(ride);
+    }
+
+    @Override
+    public RideResponse assignDriver(String rideId, AssignDriverRequest request) {
+        Ride ride = rideRepository.findById(rideId)
+                .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
+
+        if (ride.getStatus() != RideStatus.REQUESTED) {
+            throw new InvalidRideStatusException("Driver can only be assigned to a ride in REQUESTED status");
+        }
+
+        ride.setDriverId(request.getDriverId());
+        ride.setStatus(RideStatus.ASSIGNED);
+        ride.setUpdatedAt(LocalDateTime.now());
+
+        Ride savedRide = rideRepository.save(ride);
+        return mapToRideResponse(savedRide);
     }
 
     private Location mapToLocation(LocationDto dto) {
