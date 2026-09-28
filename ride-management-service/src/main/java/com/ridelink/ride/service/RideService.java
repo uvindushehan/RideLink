@@ -7,4 +7,5 @@ public interface RideService {
 
     RideResponse createRide(CreateRideRequest request);
 
+    RideResponse getRideById(String id);
 }

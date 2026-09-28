@@ -6,6 +6,7 @@ import com.ridelink.ride.dto.CreateRideRequest;
 import com.ridelink.ride.dto.LocationDto;
 import com.ridelink.ride.dto.RideResponse;
 import com.ridelink.ride.enums.RideStatus;
+import com.ridelink.ride.exception.RideNotFoundException;
 import com.ridelink.ride.repository.RideRepository;
 import com.ridelink.ride.service.RideService;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,13 @@ public class RideServiceImpl implements RideService {
         Ride savedRide = rideRepository.save(ride);
 
         return mapToRideResponse(savedRide);
+    }
+
+    @Override
+    public RideResponse getRideById(String id) {
+        Ride ride = rideRepository.findById(id)
+                .orElseThrow(() -> new RideNotFoundException("Ride with ID " + id + " was not found"));
+        return mapToRideResponse(ride);
     }
 
     private Location mapToLocation(LocationDto dto) {
