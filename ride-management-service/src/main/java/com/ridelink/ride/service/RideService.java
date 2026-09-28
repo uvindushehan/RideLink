@@ -16,4 +16,6 @@ public interface RideService {
     RideResponse assignDriver(String rideId, AssignDriverRequest request);
 
     List<AvailableDriverResponse> getAvailableDrivers();
+
+    RideResponse autoAssignDriver(String rideId);
 }
