@@ -1,0 +1,159 @@
+{
+  "info": {
+    "name": "Fare Payment Service",
+    "description": "Postman Collection for the Fare Payment Service microservice.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Calculate Fare",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"distanceKm\": 10,\n  \"durationMinutes\": 20\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/payments/calculate-fare",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments", "calculate-fare" ]
+        }
+      }
+    },
+    {
+      "name": "Create Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"rideId\": \"RIDE-001\",\n  \"passengerId\": \"PASSENGER-001\",\n  \"driverId\": \"DRIVER-001\",\n  \"distanceKm\": 10,\n  \"durationMinutes\": 20,\n  \"paymentMethod\": \"CARD\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/payments",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments" ]
+        }
+      }
+    },
+    {
+      "name": "Get Payment by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8083/api/payments/PAYMENT-ID-HERE",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments", "PAYMENT-ID-HERE" ]
+        }
+      }
+    },
+    {
+      "name": "Get Payment by Ride ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8083/api/payments/ride/RIDE-001",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments", "ride", "RIDE-001" ]
+        }
+      }
+    },
+    {
+      "name": "Get Passenger Payment History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8083/api/payments/passenger/PASSENGER-001",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments", "passenger", "PASSENGER-001" ]
+        }
+      }
+    },
+    {
+      "name": "Get Driver Payment Records",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8083/api/payments/driver/DRIVER-001",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments", "driver", "DRIVER-001" ]
+        }
+      }
+    },
+    {
+      "name": "Get Payments by Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8083/api/payments/status/COMPLETED",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments", "status", "COMPLETED" ]
+        }
+      }
+    },
+    {
+      "name": "Update Payment Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"paymentStatus\": \"COMPLETED\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/payments/PAYMENT-ID-HERE/status",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments", "PAYMENT-ID-HERE", "status" ]
+        }
+      }
+    },
+    {
+      "name": "Refund Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refundAmount\": 500.00\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/payments/PAYMENT-ID-HERE/refund",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8083",
+          "path": [ "api", "payments", "PAYMENT-ID-HERE", "refund" ]
+        }
+      }
+    }
+  ]
+}
