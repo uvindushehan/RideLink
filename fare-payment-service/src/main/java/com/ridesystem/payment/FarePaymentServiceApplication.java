@@ -2,6 +2,7 @@ package com.ridesystem.payment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 /**
  * Fare Payment Service - Main Application Entry Point
@@ -20,9 +21,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p><strong>Port:</strong> 8083
  * <p><strong>Swagger UI:</strong> http://localhost:8083/swagger-ui/index.html
  *
+ * <p>{@code @EnableMongoAuditing} activates Spring Data MongoDB auditing so that
+ * {@code @CreatedDate} and {@code @LastModifiedDate} on {@link com.ridesystem.payment.model.Payment}
+ * are automatically populated on save/update operations.
+ *
  * <p>IT3130 AD Group Assignment — RideLink System
  */
 @SpringBootApplication
+@EnableMongoAuditing
 public class FarePaymentServiceApplication {
 
     public static void main(String[] args) {
