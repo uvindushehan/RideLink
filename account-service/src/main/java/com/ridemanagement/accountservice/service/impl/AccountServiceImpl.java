@@ -13,6 +13,7 @@ import com.ridemanagement.accountservice.service.AccountService;
 import com.ridemanagement.accountservice.util.AccountMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AccountResponse registerAccount(RegisterRequest request) {
@@ -42,8 +44,9 @@ public class AccountServiceImpl implements AccountService {
             throw new PhoneNumberAlreadyExistsException("Account with phone number '" + request.getPhoneNumber() + "' already exists");
         }
 
-        // Map request to entity, set status to ACTIVE and timestamps
+        // Map request to entity, then encode the password before persisting
         Account account = AccountMapper.toAccount(request);
+        account.setPassword(passwordEncoder.encode(request.getPassword()));
         account.setStatus(AccountStatus.ACTIVE);
         LocalDateTime now = LocalDateTime.now();
         account.setCreatedAt(now);
