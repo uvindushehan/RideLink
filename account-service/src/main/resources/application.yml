@@ -2,6 +2,17 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: account-service
   data:
     mongodb:
-      uri: mongodb://localhost:27017/ridelink_account_db
+      uri: mongodb://localhost:27017/account_service_db
+
+# SpringDoc / Swagger UI Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
