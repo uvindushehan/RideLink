@@ -63,4 +63,10 @@ public class RideController {
         RideResponse response = rideService.acceptRide(id);
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/{id}/start")
+    public ResponseEntity<RideResponse> startRide(@PathVariable String id) {
+        RideResponse response = rideService.startRide(id);
+        return ResponseEntity.ok(response);
+    }
 }

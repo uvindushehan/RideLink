@@ -20,4 +20,6 @@ public interface RideService {
     RideResponse autoAssignDriver(String rideId);
 
     RideResponse acceptRide(String rideId);
+
+    RideResponse startRide(String rideId);
 }
