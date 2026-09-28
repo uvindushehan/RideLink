@@ -15,7 +15,7 @@ Technology:
 - Java
 - Spring Boot
 - Maven
-- MongoDB (for individual microservices where appropriate)
+- MongoDB for individual microservices where appropriate
 
 Architecture:
 
