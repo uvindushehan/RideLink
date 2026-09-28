@@ -10,6 +10,7 @@ import com.ridelink.ride.dto.RideResponse;
 import com.ridelink.ride.dto.external.AvailableDriverResponse;
 import com.ridelink.ride.enums.RideStatus;
 import com.ridelink.ride.exception.InvalidRideStatusException;
+import com.ridelink.ride.exception.NoAvailableDriverException;
 import com.ridelink.ride.exception.RideNotFoundException;
 import com.ridelink.ride.repository.RideRepository;
 import com.ridelink.ride.service.RideService;
@@ -74,6 +75,30 @@ public class RideServiceImpl implements RideService {
     @Override
     public List<AvailableDriverResponse> getAvailableDrivers() {
         return driverServiceClient.getAvailableDrivers();
+    }
+
+    @Override
+    public RideResponse autoAssignDriver(String rideId) {
+        Ride ride = rideRepository.findById(rideId)
+                .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
+
+        if (ride.getStatus() != RideStatus.REQUESTED) {
+            throw new InvalidRideStatusException("Driver can only be auto-assigned to a ride in REQUESTED status");
+        }
+
+        List<AvailableDriverResponse> availableDrivers = driverServiceClient.getAvailableDrivers();
+        if (availableDrivers == null || availableDrivers.isEmpty()) {
+            throw new NoAvailableDriverException("No available driver was found for this ride");
+        }
+
+        String selectedDriverId = availableDrivers.get(0).getDriverId();
+
+        ride.setDriverId(selectedDriverId);
+        ride.setStatus(RideStatus.ASSIGNED);
+        ride.setUpdatedAt(LocalDateTime.now());
+
+        Ride savedRide = rideRepository.save(ride);
+        return mapToRideResponse(savedRide);
     }
 
     private Location mapToLocation(LocationDto dto) {

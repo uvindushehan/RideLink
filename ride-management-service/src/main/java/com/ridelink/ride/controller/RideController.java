@@ -51,4 +51,10 @@ public class RideController {
         List<AvailableDriverResponse> responses = rideService.getAvailableDrivers();
         return ResponseEntity.ok(responses);
     }
+
+    @PatchMapping("/{id}/auto-assign-driver")
+    public ResponseEntity<RideResponse> autoAssignDriver(@PathVariable String id) {
+        RideResponse response = rideService.autoAssignDriver(id);
+        return ResponseEntity.ok(response);
+    }
 }
