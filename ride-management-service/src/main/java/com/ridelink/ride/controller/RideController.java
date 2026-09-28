@@ -3,6 +3,7 @@ package com.ridelink.ride.controller;
 import com.ridelink.ride.dto.AssignDriverRequest;
 import com.ridelink.ride.dto.CreateRideRequest;
 import com.ridelink.ride.dto.RideResponse;
+import com.ridelink.ride.dto.external.AvailableDriverResponse;
 import com.ridelink.ride.service.RideService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/rides")
@@ -41,5 +44,11 @@ public class RideController {
     public ResponseEntity<RideResponse> assignDriver(@PathVariable String id, @Valid @RequestBody AssignDriverRequest request) {
         RideResponse response = rideService.assignDriver(id, request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/available-drivers")
+    public ResponseEntity<List<AvailableDriverResponse>> getAvailableDrivers() {
+        List<AvailableDriverResponse> responses = rideService.getAvailableDrivers();
+        return ResponseEntity.ok(responses);
     }
 }

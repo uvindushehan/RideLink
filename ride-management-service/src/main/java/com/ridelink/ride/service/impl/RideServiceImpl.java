@@ -1,11 +1,13 @@
 package com.ridelink.ride.service.impl;
 
+import com.ridelink.ride.client.DriverServiceClient;
 import com.ridelink.ride.document.Location;
 import com.ridelink.ride.document.Ride;
 import com.ridelink.ride.dto.AssignDriverRequest;
 import com.ridelink.ride.dto.CreateRideRequest;
 import com.ridelink.ride.dto.LocationDto;
 import com.ridelink.ride.dto.RideResponse;
+import com.ridelink.ride.dto.external.AvailableDriverResponse;
 import com.ridelink.ride.enums.RideStatus;
 import com.ridelink.ride.exception.InvalidRideStatusException;
 import com.ridelink.ride.exception.RideNotFoundException;
@@ -14,14 +16,17 @@ import com.ridelink.ride.service.RideService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RideServiceImpl implements RideService {
 
     private final RideRepository rideRepository;
+    private final DriverServiceClient driverServiceClient;
 
-    public RideServiceImpl(RideRepository rideRepository) {
+    public RideServiceImpl(RideRepository rideRepository, DriverServiceClient driverServiceClient) {
         this.rideRepository = rideRepository;
+        this.driverServiceClient = driverServiceClient;
     }
 
     @Override
@@ -64,6 +69,11 @@ public class RideServiceImpl implements RideService {
 
         Ride savedRide = rideRepository.save(ride);
         return mapToRideResponse(savedRide);
+    }
+
+    @Override
+    public List<AvailableDriverResponse> getAvailableDrivers() {
+        return driverServiceClient.getAvailableDrivers();
     }
 
     private Location mapToLocation(LocationDto dto) {
