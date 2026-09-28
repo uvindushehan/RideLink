@@ -57,4 +57,10 @@ public class RideController {
         RideResponse response = rideService.autoAssignDriver(id);
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/{id}/accept")
+    public ResponseEntity<RideResponse> acceptRide(@PathVariable String id) {
+        RideResponse response = rideService.acceptRide(id);
+        return ResponseEntity.ok(response);
+    }
 }

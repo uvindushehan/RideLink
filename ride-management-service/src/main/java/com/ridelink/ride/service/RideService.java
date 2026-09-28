@@ -18,4 +18,6 @@ public interface RideService {
     List<AvailableDriverResponse> getAvailableDrivers();
 
     RideResponse autoAssignDriver(String rideId);
+
+    RideResponse acceptRide(String rideId);
 }
