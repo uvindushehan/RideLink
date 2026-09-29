@@ -1,6 +1,5 @@
 package com.ridemanagement.accountservice.dto.request;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -15,15 +14,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Request payload for user authentication")
 public class LoginRequest {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email must be a valid email address")
-    @Schema(description = "Registered email address", example = "john.doe@example.com")
-    private String email;
+        private String email;
 
     @NotBlank(message = "Password is required")
-    @Schema(description = "User account password", example = "SecurePass123!")
-    private String password;
+        private String password;
 }

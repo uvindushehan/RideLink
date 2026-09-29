@@ -57,11 +57,7 @@
         </dependency>
 
         <!-- Springdoc OpenAPI / Swagger UI Starter for Spring Boot 3 -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
+        
 
         <!-- JJWT Dependencies for JWT Authentication -->
         <dependency>

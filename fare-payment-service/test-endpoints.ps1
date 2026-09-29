@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Stop"
-$baseUrl = "http://localhost:8083/api/payments"
+$baseUrl = "http://localhost:8084/api/payments"
 
 Write-Host "3. TEST CREATE PAYMENT"
 $createPayload = @{

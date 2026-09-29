@@ -1,15 +1,10 @@
 package com.ridelink.ride.dto.external;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@Schema(description = "Driver availability record returned by the Driver & Vehicle Service")
 public class AvailableDriverResponse {
 
-    @Schema(description = "Unique identifier of the available driver", example = "driver-007")
-    private String driverId;
+        private String driverId;
 
-    @Schema(description = "Current availability status of the driver", example = "AVAILABLE")
-    private String availabilityStatus;
+        private String availabilityStatus;
 
     public AvailableDriverResponse() {
     }
