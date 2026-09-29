@@ -141,6 +141,26 @@ public class RideServiceImpl implements RideService {
         return mapToRideResponse(savedRide);
     }
 
+    @Override
+    public RideResponse completeRide(String rideId) {
+        Ride ride = rideRepository.findById(rideId)
+                .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
+
+        if (ride.getStatus() != RideStatus.IN_PROGRESS) {
+            throw new InvalidRideStatusException("Only IN_PROGRESS rides can be completed");
+        }
+
+        if (ride.getDriverId() == null || ride.getDriverId().trim().isEmpty()) {
+            throw new InvalidRideStatusException("Ride cannot be completed without an assigned driver");
+        }
+
+        ride.setStatus(RideStatus.COMPLETED);
+        ride.setUpdatedAt(LocalDateTime.now());
+
+        Ride savedRide = rideRepository.save(ride);
+        return mapToRideResponse(savedRide);
+    }
+
     private Location mapToLocation(LocationDto dto) {
         if (dto == null) {
             return null;

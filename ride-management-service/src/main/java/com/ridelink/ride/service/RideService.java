@@ -22,4 +22,6 @@ public interface RideService {
     RideResponse acceptRide(String rideId);
 
     RideResponse startRide(String rideId);
+
+    RideResponse completeRide(String rideId);
 }
