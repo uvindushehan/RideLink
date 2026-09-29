@@ -3,6 +3,7 @@ package com.ridemanagement.accountservice.service.impl;
 import com.ridemanagement.accountservice.dto.request.LoginRequest;
 import com.ridemanagement.accountservice.dto.request.RegisterRequest;
 import com.ridemanagement.accountservice.dto.request.UpdateAccountRequest;
+import com.ridemanagement.accountservice.dto.request.UpdateAccountStatusRequest;
 import com.ridemanagement.accountservice.dto.response.AccountResponse;
 import com.ridemanagement.accountservice.dto.response.LoginResponse;
 import com.ridemanagement.accountservice.exception.AccountInactiveException;
@@ -132,6 +133,22 @@ public class AccountServiceImpl implements AccountService {
 
         accountRepository.save(account);
         log.info("Account successfully deactivated for id: {}", id);
+    }
+
+    @Override
+    public AccountResponse updateAccountStatus(String accountId, UpdateAccountStatusRequest request) {
+        log.info("Updating account status for id: {} to {}", accountId, request.getStatus());
+
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found with id: " + accountId));
+
+        account.setStatus(request.getStatus());
+        account.setUpdatedAt(LocalDateTime.now());
+
+        Account updatedAccount = accountRepository.save(account);
+        log.info("Account status successfully updated for id: {}", updatedAccount.getId());
+
+        return AccountMapper.toAccountResponse(updatedAccount);
     }
 
     @Override
