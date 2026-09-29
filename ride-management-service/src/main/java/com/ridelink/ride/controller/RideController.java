@@ -70,6 +70,12 @@ public class RideController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/{id}/complete")
+    public ResponseEntity<RideResponse> completeRide(@PathVariable String id) {
+        RideResponse response = rideService.completeRide(id);
+        return ResponseEntity.ok(response);
+    }
+
     @PatchMapping("/{id}/cancel")
     public ResponseEntity<RideResponse> cancelRide(@PathVariable String id) {
         RideResponse response = rideService.cancelRide(id);
