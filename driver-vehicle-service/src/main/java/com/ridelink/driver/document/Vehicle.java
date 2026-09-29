@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+
 import com.ridelink.driver.enums.VehicleStatus;
 
 @Document(collection = "vehicles")
@@ -13,12 +16,20 @@ public class Vehicle {
     @Id
     private String id;
 
+    @NotBlank(message = "Registration number must not be blank")
     private String registrationNumber;
+
+    @NotBlank(message = "Brand must not be blank")
     private String brand;
+
+    @NotBlank(message = "Model must not be blank")
     private String model;
+
     private String vehicleType;
     private String color;
     private Integer manufactureYear;
+
+    @Positive(message = "Seating capacity must be positive")
     private Integer seatingCapacity;
     
     private VehicleStatus status;

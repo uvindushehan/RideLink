@@ -26,7 +26,7 @@ public class VehicleService {
 
     public Vehicle getVehicleById(String id) {
         return vehicleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Vehicle not found with ID: " + id));
+                .orElseThrow(() -> new com.ridelink.driver.exception.ResourceNotFoundException("Vehicle not found with ID: " + id));
     }
 
     public Vehicle updateVehicle(String id, Vehicle vehicleUpdates) {
