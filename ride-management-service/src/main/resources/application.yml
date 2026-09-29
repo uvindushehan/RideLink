@@ -8,3 +8,6 @@ spring:
 
 driver-service:
   base-url: http://localhost:8082
+
+jwt:
+  secret: ${JWT_SECRET:83f510be14120fdb4a4d952675b34ebcfef016a50da3e30f36798c92a95c4cfc}
