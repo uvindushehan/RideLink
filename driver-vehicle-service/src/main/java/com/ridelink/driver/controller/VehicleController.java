@@ -66,4 +66,14 @@ public class VehicleController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @org.springframework.web.bind.annotation.PatchMapping("/{id}/status")
+    public ResponseEntity<Vehicle> updateVehicleStatus(@PathVariable String id, @RequestBody com.ridelink.driver.enums.VehicleStatus status) {
+        try {
+            Vehicle updatedVehicle = vehicleService.updateVehicleStatus(id, status);
+            return ResponseEntity.ok(updatedVehicle);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

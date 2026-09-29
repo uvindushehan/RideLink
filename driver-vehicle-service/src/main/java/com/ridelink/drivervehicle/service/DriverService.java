@@ -41,6 +41,12 @@ public class DriverService {
         return driverRepository.save(existingDriver);
     }
 
+    public Driver updateDriverAvailability(String driverId, com.ridelink.drivervehicle.enums.DriverAvailability availability) {
+        Driver existingDriver = getDriverById(driverId);
+        existingDriver.setAvailabilityStatus(availability);
+        return driverRepository.save(existingDriver);
+    }
+
     public void deleteDriver(String id) {
         Driver existingDriver = getDriverById(id);
         driverRepository.delete(existingDriver);
