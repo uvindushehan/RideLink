@@ -27,7 +27,7 @@ public class DriverController {
     }
 
     @PostMapping
-    public ResponseEntity<Driver> createDriver(@RequestBody Driver driver) {
+    public ResponseEntity<Driver> createDriver(@jakarta.validation.Valid @RequestBody Driver driver) {
         Driver createdDriver = driverService.createDriver(driver);
         return new ResponseEntity<>(createdDriver, HttpStatus.CREATED);
     }
@@ -39,41 +39,25 @@ public class DriverController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Driver> getDriverById(@PathVariable String id) {
-        try {
-            Driver driver = driverService.getDriverById(id);
-            return ResponseEntity.ok(driver);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        Driver driver = driverService.getDriverById(id);
+        return ResponseEntity.ok(driver);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Driver> updateDriver(@PathVariable String id, @RequestBody Driver driverUpdates) {
-        try {
-            Driver updatedDriver = driverService.updateDriver(id, driverUpdates);
-            return ResponseEntity.ok(updatedDriver);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<Driver> updateDriver(@PathVariable String id, @jakarta.validation.Valid @RequestBody Driver driverUpdates) {
+        Driver updatedDriver = driverService.updateDriver(id, driverUpdates);
+        return ResponseEntity.ok(updatedDriver);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDriver(@PathVariable String id) {
-        try {
-            driverService.deleteDriver(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        driverService.deleteDriver(id);
+        return ResponseEntity.noContent().build();
     }
 
     @org.springframework.web.bind.annotation.PatchMapping("/{id}/availability")
     public ResponseEntity<Driver> updateDriverAvailability(@PathVariable String id, @RequestBody com.ridelink.drivervehicle.enums.DriverAvailability availability) {
-        try {
-            Driver updatedDriver = driverService.updateDriverAvailability(id, availability);
-            return ResponseEntity.ok(updatedDriver);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        Driver updatedDriver = driverService.updateDriverAvailability(id, availability);
+        return ResponseEntity.ok(updatedDriver);
     }
 }

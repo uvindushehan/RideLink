@@ -26,7 +26,7 @@ public class DriverService {
 
     public Driver getDriverById(String id) {
         return driverRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Driver not found with ID: " + id));
+                .orElseThrow(() -> new com.ridelink.driver.exception.ResourceNotFoundException("Driver not found with ID: " + id));
     }
 
     public Driver updateDriver(String id, Driver driverUpdates) {

@@ -27,7 +27,7 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle) {
+    public ResponseEntity<Vehicle> createVehicle(@jakarta.validation.Valid @RequestBody Vehicle vehicle) {
         Vehicle createdVehicle = vehicleService.createVehicle(vehicle);
         return new ResponseEntity<>(createdVehicle, HttpStatus.CREATED);
     }
@@ -39,41 +39,25 @@ public class VehicleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable String id) {
-        try {
-            Vehicle vehicle = vehicleService.getVehicleById(id);
-            return ResponseEntity.ok(vehicle);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        Vehicle vehicle = vehicleService.getVehicleById(id);
+        return ResponseEntity.ok(vehicle);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Vehicle> updateVehicle(@PathVariable String id, @RequestBody Vehicle vehicleUpdates) {
-        try {
-            Vehicle updatedVehicle = vehicleService.updateVehicle(id, vehicleUpdates);
-            return ResponseEntity.ok(updatedVehicle);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<Vehicle> updateVehicle(@PathVariable String id, @jakarta.validation.Valid @RequestBody Vehicle vehicleUpdates) {
+        Vehicle updatedVehicle = vehicleService.updateVehicle(id, vehicleUpdates);
+        return ResponseEntity.ok(updatedVehicle);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable String id) {
-        try {
-            vehicleService.deleteVehicle(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        vehicleService.deleteVehicle(id);
+        return ResponseEntity.noContent().build();
     }
 
     @org.springframework.web.bind.annotation.PatchMapping("/{id}/status")
     public ResponseEntity<Vehicle> updateVehicleStatus(@PathVariable String id, @RequestBody com.ridelink.driver.enums.VehicleStatus status) {
-        try {
-            Vehicle updatedVehicle = vehicleService.updateVehicleStatus(id, status);
-            return ResponseEntity.ok(updatedVehicle);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        Vehicle updatedVehicle = vehicleService.updateVehicleStatus(id, status);
+        return ResponseEntity.ok(updatedVehicle);
     }
 }

@@ -26,16 +26,12 @@ public class DriverVehicleAssignmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createAssignment(@RequestBody DriverVehicleAssignment assignment) {
-        try {
-            DriverVehicleAssignment created = assignmentService.createAssignment(
-                assignment.getDriverId(), 
-                assignment.getVehicleId()
-            );
-            return new ResponseEntity<>(created, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> createAssignment(@jakarta.validation.Valid @RequestBody DriverVehicleAssignment assignment) {
+        DriverVehicleAssignment created = assignmentService.createAssignment(
+            assignment.getDriverId(), 
+            assignment.getVehicleId()
+        );
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -45,12 +41,8 @@ public class DriverVehicleAssignmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAssignmentById(@PathVariable String id) {
-        try {
-            DriverVehicleAssignment assignment = assignmentService.getAssignmentById(id);
-            return ResponseEntity.ok(assignment);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        DriverVehicleAssignment assignment = assignmentService.getAssignmentById(id);
+        return ResponseEntity.ok(assignment);
     }
 
     @GetMapping("/driver/{driverId}")
@@ -60,11 +52,7 @@ public class DriverVehicleAssignmentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deactivateAssignment(@PathVariable String id) {
-        try {
-            assignmentService.deactivateAssignment(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        assignmentService.deactivateAssignment(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
