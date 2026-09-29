@@ -1,9 +1,14 @@
 package com.ridemanagement.accountservice.service.impl;
 
+import com.ridemanagement.accountservice.dto.request.LoginRequest;
 import com.ridemanagement.accountservice.dto.request.RegisterRequest;
 import com.ridemanagement.accountservice.dto.request.UpdateAccountRequest;
 import com.ridemanagement.accountservice.dto.response.AccountResponse;
+import com.ridemanagement.accountservice.dto.response.LoginResponse;
+import com.ridemanagement.accountservice.exception.AccountInactiveException;
+import com.ridemanagement.accountservice.exception.AccountSuspendedException;
 import com.ridemanagement.accountservice.exception.EmailAlreadyExistsException;
+import com.ridemanagement.accountservice.exception.InvalidCredentialsException;
 import com.ridemanagement.accountservice.exception.PhoneNumberAlreadyExistsException;
 import com.ridemanagement.accountservice.exception.ResourceNotFoundException;
 import com.ridemanagement.accountservice.model.Account;
@@ -125,5 +130,46 @@ public class AccountServiceImpl implements AccountService {
 
         accountRepository.save(account);
         log.info("Account successfully deactivated for id: {}", id);
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest request) {
+        log.info("Login attempt for email: {}", request.getEmail());
+
+        // Locate the account — use the same exception as a wrong password so that
+        // callers cannot distinguish between a non-existent user and a bad password
+        // (prevents user enumeration attacks).
+        Account account = accountRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid email or password"));
+
+        // Verify the provided plain-text password against the stored BCrypt hash.
+        // passwordEncoder.matches() is constant-time and never decrypts — it re-hashes
+        // the candidate and compares digests.
+        if (!passwordEncoder.matches(request.getPassword(), account.getPassword())) {
+            log.warn("Failed login attempt for email: {} — invalid password", request.getEmail());
+            throw new InvalidCredentialsException("Invalid email or password");
+        }
+
+        // Check account lifecycle status before granting access.
+        switch (account.getStatus()) {
+            case INACTIVE ->
+                throw new AccountInactiveException(
+                        "Account associated with '" + request.getEmail() + "' has been deactivated. "
+                        + "Please contact support to reactivate your account.");
+            case SUSPENDED ->
+                throw new AccountSuspendedException(
+                        "Account associated with '" + request.getEmail() + "' has been suspended. "
+                        + "Please contact support for further assistance.");
+            default -> { /* ACTIVE — proceed */ }
+        }
+
+        log.info("Login successful for account id: {}", account.getId());
+
+        // token is null until JWT generation is implemented in a later step.
+        return LoginResponse.builder()
+                .message("Login successful")
+                .token(null)
+                .account(AccountMapper.toAccountResponse(account))
+                .build();
     }
 }
