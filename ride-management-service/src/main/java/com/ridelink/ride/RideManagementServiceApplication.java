@@ -1,4 +1,4 @@
-package com.ridelink.ridemanagement;
+package com.ridelink.ride;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
