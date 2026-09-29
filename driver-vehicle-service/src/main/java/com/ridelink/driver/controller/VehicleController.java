@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ridelink.driver.document.Vehicle;
 import com.ridelink.driver.service.VehicleService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/vehicles")
+@Tag(name = "Vehicle Management", description = "Endpoints for managing vehicles")
 public class VehicleController {
 
     private final VehicleService vehicleService;
@@ -27,35 +31,41 @@ public class VehicleController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a new vehicle")
     public ResponseEntity<Vehicle> createVehicle(@jakarta.validation.Valid @RequestBody Vehicle vehicle) {
         Vehicle createdVehicle = vehicleService.createVehicle(vehicle);
         return new ResponseEntity<>(createdVehicle, HttpStatus.CREATED);
     }
 
     @GetMapping
+    @Operation(summary = "Get all vehicles")
     public ResponseEntity<List<Vehicle>> getAllVehicles() {
         return ResponseEntity.ok(vehicleService.getAllVehicles());
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get a vehicle by ID")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable String id) {
         Vehicle vehicle = vehicleService.getVehicleById(id);
         return ResponseEntity.ok(vehicle);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update an existing vehicle")
     public ResponseEntity<Vehicle> updateVehicle(@PathVariable String id, @jakarta.validation.Valid @RequestBody Vehicle vehicleUpdates) {
         Vehicle updatedVehicle = vehicleService.updateVehicle(id, vehicleUpdates);
         return ResponseEntity.ok(updatedVehicle);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a vehicle by ID")
     public ResponseEntity<Void> deleteVehicle(@PathVariable String id) {
         vehicleService.deleteVehicle(id);
         return ResponseEntity.noContent().build();
     }
 
     @org.springframework.web.bind.annotation.PatchMapping("/{id}/status")
+    @Operation(summary = "Update vehicle status")
     public ResponseEntity<Vehicle> updateVehicleStatus(@PathVariable String id, @RequestBody com.ridelink.driver.enums.VehicleStatus status) {
         Vehicle updatedVehicle = vehicleService.updateVehicleStatus(id, status);
         return ResponseEntity.ok(updatedVehicle);
