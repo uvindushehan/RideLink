@@ -2,7 +2,6 @@ package com.ridesystem.payment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 /**
  * Fare Payment Service - Main Application Entry Point
@@ -28,7 +27,6 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
  * <p>IT3130 AD Group Assignment — RideLink System
  */
 @SpringBootApplication
-@EnableMongoAuditing
 public class FarePaymentServiceApplication {
 
     public static void main(String[] args) {
