@@ -3,6 +3,7 @@ package com.ridemanagement.accountservice.service;
 import com.ridemanagement.accountservice.dto.request.LoginRequest;
 import com.ridemanagement.accountservice.dto.request.RegisterRequest;
 import com.ridemanagement.accountservice.dto.request.UpdateAccountRequest;
+import com.ridemanagement.accountservice.dto.request.UpdateAccountStatusRequest;
 import com.ridemanagement.accountservice.dto.response.AccountResponse;
 import com.ridemanagement.accountservice.dto.response.LoginResponse;
 
@@ -59,6 +60,15 @@ public interface AccountService {
      * @param id the MongoDB account ID
      */
     void deactivateAccount(String id);
+
+    /**
+     * Updates the status of an account (ADMIN only).
+     *
+     * @param accountId the MongoDB account ID
+     * @param request   the requested status update
+     * @return the updated account details
+     */
+    AccountResponse updateAccountStatus(String accountId, UpdateAccountStatusRequest request);
 
     /**
      * Authenticates a user by email and password.

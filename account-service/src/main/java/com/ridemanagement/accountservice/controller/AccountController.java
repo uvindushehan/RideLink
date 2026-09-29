@@ -3,6 +3,7 @@ package com.ridemanagement.accountservice.controller;
 import com.ridemanagement.accountservice.dto.request.LoginRequest;
 import com.ridemanagement.accountservice.dto.request.RegisterRequest;
 import com.ridemanagement.accountservice.dto.request.UpdateAccountRequest;
+import com.ridemanagement.accountservice.dto.request.UpdateAccountStatusRequest;
 import com.ridemanagement.accountservice.dto.response.AccountResponse;
 import com.ridemanagement.accountservice.dto.response.LoginResponse;
 import com.ridemanagement.accountservice.service.AccountService;
@@ -73,5 +74,14 @@ public class AccountController {
     public ResponseEntity<Void> deactivateAccount(@PathVariable String id) {
         accountService.deactivateAccount(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update account status", description = "Requires ADMIN role. Allowed values: ACTIVE, INACTIVE, SUSPENDED.")
+    public ResponseEntity<AccountResponse> updateAccountStatus(
+            @PathVariable String id,
+            @Valid @RequestBody UpdateAccountStatusRequest request) {
+        return ResponseEntity.ok(accountService.updateAccountStatus(id, request));
     }
 }
