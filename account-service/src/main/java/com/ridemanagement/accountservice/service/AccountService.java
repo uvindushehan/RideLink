@@ -1,8 +1,10 @@
 package com.ridemanagement.accountservice.service;
 
+import com.ridemanagement.accountservice.dto.request.LoginRequest;
 import com.ridemanagement.accountservice.dto.request.RegisterRequest;
 import com.ridemanagement.accountservice.dto.request.UpdateAccountRequest;
 import com.ridemanagement.accountservice.dto.response.AccountResponse;
+import com.ridemanagement.accountservice.dto.response.LoginResponse;
 
 import java.util.List;
 
@@ -57,4 +59,17 @@ public interface AccountService {
      * @param id the MongoDB account ID
      */
     void deactivateAccount(String id);
+
+    /**
+     * Authenticates a user by email and password.
+     *
+     * <p>Verifies the provided plain-text password against the stored BCrypt hash,
+     * then checks that the account status is {@code ACTIVE}.
+     * Returns a temporary {@link LoginResponse} with {@code token = null} until
+     * JWT generation is implemented in a later step.
+     *
+     * @param request the login credentials
+     * @return a {@link LoginResponse} containing account details and a null JWT token
+     */
+    LoginResponse login(LoginRequest request);
 }
