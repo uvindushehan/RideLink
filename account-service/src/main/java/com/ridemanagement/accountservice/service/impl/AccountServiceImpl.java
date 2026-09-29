@@ -14,6 +14,7 @@ import com.ridemanagement.accountservice.exception.ResourceNotFoundException;
 import com.ridemanagement.accountservice.model.Account;
 import com.ridemanagement.accountservice.model.AccountStatus;
 import com.ridemanagement.accountservice.repository.AccountRepository;
+import com.ridemanagement.accountservice.security.JwtService;
 import com.ridemanagement.accountservice.service.AccountService;
 import com.ridemanagement.accountservice.util.AccountMapper;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Override
     public AccountResponse registerAccount(RegisterRequest request) {
@@ -165,10 +167,11 @@ public class AccountServiceImpl implements AccountService {
 
         log.info("Login successful for account id: {}", account.getId());
 
-        // token is null until JWT generation is implemented in a later step.
+        String token = jwtService.generateToken(account);
+
         return LoginResponse.builder()
                 .message("Login successful")
-                .token(null)
+                .token(token)
                 .account(AccountMapper.toAccountResponse(account))
                 .build();
     }
