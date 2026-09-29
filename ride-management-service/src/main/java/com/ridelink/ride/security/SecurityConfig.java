@@ -34,7 +34,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
                 // Swagger UI
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources", "/swagger-resources/**", "/configuration/ui", "/configuration/security", "/webjars/**", "/swagger-ui/index.html").permitAll()
                 // Ride Management Endpoints
                 .requestMatchers(HttpMethod.POST, "/api/rides").hasAnyRole("PASSENGER", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/rides/{id}").authenticated()
