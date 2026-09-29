@@ -58,8 +58,15 @@ public class DriverVehicleAssignmentService {
                 LocalDateTime.now(),
                 true
         );
+        DriverVehicleAssignment savedAssignment = assignmentRepository.save(assignment);
 
-        return assignmentRepository.save(assignment);
+        driver.setAvailabilityStatus(com.ridelink.drivervehicle.enums.DriverAvailability.BUSY);
+        driverRepository.save(driver);
+
+        vehicle.setStatus(VehicleStatus.IN_USE);
+        vehicleRepository.save(vehicle);
+
+        return savedAssignment;
     }
 
     public List<DriverVehicleAssignment> getAllAssignments() {
@@ -78,6 +85,18 @@ public class DriverVehicleAssignmentService {
     public DriverVehicleAssignment deactivateAssignment(String id) {
         DriverVehicleAssignment assignment = getAssignmentById(id);
         assignment.setActive(false);
-        return assignmentRepository.save(assignment);
+        DriverVehicleAssignment savedAssignment = assignmentRepository.save(assignment);
+        
+        Driver driver = driverRepository.findById(assignment.getDriverId())
+                .orElseThrow(() -> new RuntimeException("Driver not found with id: " + assignment.getDriverId()));
+        driver.setAvailabilityStatus(com.ridelink.drivervehicle.enums.DriverAvailability.AVAILABLE);
+        driverRepository.save(driver);
+        
+        Vehicle vehicle = vehicleRepository.findById(assignment.getVehicleId())
+                .orElseThrow(() -> new RuntimeException("Vehicle not found with id: " + assignment.getVehicleId()));
+        vehicle.setStatus(VehicleStatus.AVAILABLE);
+        vehicleRepository.save(vehicle);
+        
+        return savedAssignment;
     }
 }
