@@ -6,7 +6,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ridelink.driver.document.DriverVehicleAssignment;
-import com.ridelink.driver.repository.DriverRepository;
+import com.ridelink.driver.document.Vehicle;
+import com.ridelink.driver.enums.VehicleStatus;
+import com.ridelink.drivervehicle.document.Driver;
+import com.ridelink.drivervehicle.repository.DriverRepository;
 import com.ridelink.driver.repository.DriverVehicleAssignmentRepository;
 import com.ridelink.driver.repository.VehicleRepository;
 
@@ -26,11 +29,27 @@ public class DriverVehicleAssignmentService {
     }
 
     public DriverVehicleAssignment createAssignment(String driverId, String vehicleId) {
-        if (!driverRepository.existsById(driverId)) {
-            throw new RuntimeException("Driver not found with id: " + driverId);
+        Driver driver = driverRepository.findById(driverId)
+                .orElseThrow(() -> new RuntimeException("Driver not found with id: " + driverId));
+                
+        Vehicle vehicle = vehicleRepository.findById(vehicleId)
+                .orElseThrow(() -> new RuntimeException("Vehicle not found with id: " + vehicleId));
+
+        if ("INACTIVE".equalsIgnoreCase(driver.getAvailabilityStatus()) || 
+            "SUSPENDED".equalsIgnoreCase(driver.getAvailabilityStatus())) {
+            throw new RuntimeException("Cannot assign driver with status: " + driver.getAvailabilityStatus());
         }
-        if (!vehicleRepository.existsById(vehicleId)) {
-            throw new RuntimeException("Vehicle not found with id: " + vehicleId);
+
+        if (vehicle.getStatus() == VehicleStatus.MAINTENANCE || vehicle.getStatus() == VehicleStatus.INACTIVE) {
+            throw new RuntimeException("Cannot assign vehicle with status: " + vehicle.getStatus());
+        }
+
+        if (assignmentRepository.existsByDriverIdAndActive(driverId, true)) {
+            throw new RuntimeException("Driver already has an active vehicle assignment.");
+        }
+
+        if (assignmentRepository.existsByVehicleIdAndActive(vehicleId, true)) {
+            throw new RuntimeException("Vehicle already has an active driver assignment.");
         }
 
         DriverVehicleAssignment assignment = new DriverVehicleAssignment(

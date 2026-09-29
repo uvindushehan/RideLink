@@ -10,5 +10,8 @@ import com.ridelink.driver.document.DriverVehicleAssignment;
 @Repository
 public interface DriverVehicleAssignmentRepository extends MongoRepository<DriverVehicleAssignment, String> {
     List<DriverVehicleAssignment> findByDriverId(String driverId);
+    boolean existsByDriverIdAndActive(String driverId, boolean active);
+    boolean existsByVehicleIdAndActive(String vehicleId, boolean active);
 }
+
 
