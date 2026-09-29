@@ -3,6 +3,8 @@ package com.ridelink.drivervehicle.document;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.ridelink.drivervehicle.enums.DriverAvailability;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -23,15 +25,15 @@ public class Driver {
     @NotBlank(message = "License number is required")
     private String licenseNumber;
 
-    @NotBlank(message = "Availability status is required")
-    private String availabilityStatus;
+    @NotNull(message = "Availability status is required")
+    private DriverAvailability availabilityStatus;
 
     @NotNull(message = "Current location is required")
     private Location currentLocation;
 
     public Driver() {}
 
-    public Driver(String name, String phoneNumber, String licenseNumber, String availabilityStatus, Location currentLocation) {
+    public Driver(String name, String phoneNumber, String licenseNumber, DriverAvailability availabilityStatus, Location currentLocation) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.licenseNumber = licenseNumber;
@@ -51,8 +53,8 @@ public class Driver {
     public String getLicenseNumber() { return licenseNumber; }
     public void setLicenseNumber(String licenseNumber) { this.licenseNumber = licenseNumber; }
 
-    public String getAvailabilityStatus() { return availabilityStatus; }
-    public void setAvailabilityStatus(String availabilityStatus) { this.availabilityStatus = availabilityStatus; }
+    public DriverAvailability getAvailabilityStatus() { return availabilityStatus; }
+    public void setAvailabilityStatus(DriverAvailability availabilityStatus) { this.availabilityStatus = availabilityStatus; }
 
     public Location getCurrentLocation() { return currentLocation; }
     public void setCurrentLocation(Location currentLocation) { this.currentLocation = currentLocation; }

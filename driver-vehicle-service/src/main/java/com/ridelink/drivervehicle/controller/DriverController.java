@@ -66,4 +66,14 @@ public class DriverController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @org.springframework.web.bind.annotation.PatchMapping("/{id}/availability")
+    public ResponseEntity<Driver> updateDriverAvailability(@PathVariable String id, @RequestBody com.ridelink.drivervehicle.enums.DriverAvailability availability) {
+        try {
+            Driver updatedDriver = driverService.updateDriverAvailability(id, availability);
+            return ResponseEntity.ok(updatedDriver);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

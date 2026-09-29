@@ -35,8 +35,8 @@ public class DriverVehicleAssignmentService {
         Vehicle vehicle = vehicleRepository.findById(vehicleId)
                 .orElseThrow(() -> new RuntimeException("Vehicle not found with id: " + vehicleId));
 
-        if ("INACTIVE".equalsIgnoreCase(driver.getAvailabilityStatus()) || 
-            "SUSPENDED".equalsIgnoreCase(driver.getAvailabilityStatus())) {
+        if (driver.getAvailabilityStatus() == com.ridelink.drivervehicle.enums.DriverAvailability.INACTIVE || 
+            driver.getAvailabilityStatus() == com.ridelink.drivervehicle.enums.DriverAvailability.SUSPENDED) {
             throw new RuntimeException("Cannot assign driver with status: " + driver.getAvailabilityStatus());
         }
 

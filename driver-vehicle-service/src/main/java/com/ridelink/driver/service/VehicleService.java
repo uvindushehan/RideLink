@@ -45,6 +45,13 @@ public class VehicleService {
         return vehicleRepository.save(existingVehicle);
     }
 
+    public Vehicle updateVehicleStatus(String vehicleId, com.ridelink.driver.enums.VehicleStatus status) {
+        Vehicle existingVehicle = getVehicleById(vehicleId);
+        existingVehicle.setStatus(status);
+        existingVehicle.setUpdatedAt(java.time.LocalDateTime.now());
+        return vehicleRepository.save(existingVehicle);
+    }
+
     public void deleteVehicle(String id) {
         Vehicle existingVehicle = getVehicleById(id);
         vehicleRepository.delete(existingVehicle);
