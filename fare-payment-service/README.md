@@ -133,6 +133,41 @@ Fares are calculated server-side based on the following formula:
 
 ---
 
+## Microservice Integration Contract
+
+Document what other services need to send when creating a payment.
+
+- **rideId:**
+Unique ID provided by Ride Management Service.
+
+- **passengerId:**
+Passenger/account identifier.
+
+- **driverId:**
+Driver identifier.
+
+- **distanceKm:**
+Completed ride distance used for fare calculation.
+
+- **durationMinutes:**
+Ride duration used for fare calculation.
+
+- **paymentMethod:**
+CASH, CARD, or WALLET.
+
+---
+
+## Payment Creation Flow
+
+1. Ride Management Service completes a ride.
+2. Relevant ride information is supplied to Fare Payment Service.
+3. Fare Payment Service calculates the fare.
+4. Fare Payment Service creates a payment in PENDING status.
+5. Payment is updated to COMPLETED or FAILED.
+6. A completed payment may later be refunded.
+
+---
+
 ## Microservice Database Isolation
 
 The Fare Payment Service owns and exclusively manages:
