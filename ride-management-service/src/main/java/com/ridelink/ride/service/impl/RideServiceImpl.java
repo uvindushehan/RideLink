@@ -142,19 +142,21 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public RideResponse completeRide(String rideId) {
+    public RideResponse cancelRide(String rideId) {
         Ride ride = rideRepository.findById(rideId)
                 .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
 
-        if (ride.getStatus() != RideStatus.IN_PROGRESS) {
-            throw new InvalidRideStatusException("Only IN_PROGRESS rides can be completed");
+        RideStatus currentStatus = ride.getStatus();
+        boolean cancellable = currentStatus == RideStatus.REQUESTED
+                || currentStatus == RideStatus.ASSIGNED
+                || currentStatus == RideStatus.ACCEPTED;
+
+        if (!cancellable) {
+            throw new InvalidRideStatusException(
+                    "Ride cannot be cancelled in its current status: " + currentStatus);
         }
 
-        if (ride.getDriverId() == null || ride.getDriverId().trim().isEmpty()) {
-            throw new InvalidRideStatusException("Ride cannot be completed without an assigned driver");
-        }
-
-        ride.setStatus(RideStatus.COMPLETED);
+        ride.setStatus(RideStatus.CANCELLED);
         ride.setUpdatedAt(LocalDateTime.now());
 
         Ride savedRide = rideRepository.save(ride);

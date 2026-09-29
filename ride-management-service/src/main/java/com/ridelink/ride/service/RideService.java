@@ -23,5 +23,5 @@ public interface RideService {
 
     RideResponse startRide(String rideId);
 
-    RideResponse completeRide(String rideId);
+    RideResponse cancelRide(String rideId);
 }
