@@ -14,6 +14,7 @@ import com.ridelink.ride.exception.NoAvailableDriverException;
 import com.ridelink.ride.exception.RideNotFoundException;
 import com.ridelink.ride.repository.RideRepository;
 import com.ridelink.ride.service.RideService;
+import com.ridelink.ride.validation.RideStatusValidator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,10 +25,14 @@ public class RideServiceImpl implements RideService {
 
     private final RideRepository rideRepository;
     private final DriverServiceClient driverServiceClient;
+    private final RideStatusValidator rideStatusValidator;
 
-    public RideServiceImpl(RideRepository rideRepository, DriverServiceClient driverServiceClient) {
+    public RideServiceImpl(RideRepository rideRepository,
+                           DriverServiceClient driverServiceClient,
+                           RideStatusValidator rideStatusValidator) {
         this.rideRepository = rideRepository;
         this.driverServiceClient = driverServiceClient;
+        this.rideStatusValidator = rideStatusValidator;
     }
 
     @Override
@@ -38,13 +43,12 @@ public class RideServiceImpl implements RideService {
         ride.setDestinationLocation(mapToLocation(request.getDestinationLocation()));
         ride.setDriverId(null);
         ride.setStatus(RideStatus.REQUESTED);
-        
+
         LocalDateTime now = LocalDateTime.now();
         ride.setCreatedAt(now);
         ride.setUpdatedAt(now);
 
         Ride savedRide = rideRepository.save(ride);
-
         return mapToRideResponse(savedRide);
     }
 
@@ -60,9 +64,7 @@ public class RideServiceImpl implements RideService {
         Ride ride = rideRepository.findById(rideId)
                 .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
 
-        if (ride.getStatus() != RideStatus.REQUESTED) {
-            throw new InvalidRideStatusException("Driver can only be assigned to a ride in REQUESTED status");
-        }
+        rideStatusValidator.validateTransition(ride.getStatus(), RideStatus.ASSIGNED);
 
         ride.setDriverId(request.getDriverId());
         ride.setStatus(RideStatus.ASSIGNED);
@@ -82,9 +84,7 @@ public class RideServiceImpl implements RideService {
         Ride ride = rideRepository.findById(rideId)
                 .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
 
-        if (ride.getStatus() != RideStatus.REQUESTED) {
-            throw new InvalidRideStatusException("Driver can only be auto-assigned to a ride in REQUESTED status");
-        }
+        rideStatusValidator.validateTransition(ride.getStatus(), RideStatus.ASSIGNED);
 
         List<AvailableDriverResponse> availableDrivers = driverServiceClient.getAvailableDrivers();
         if (availableDrivers == null || availableDrivers.isEmpty()) {
@@ -106,9 +106,7 @@ public class RideServiceImpl implements RideService {
         Ride ride = rideRepository.findById(rideId)
                 .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
 
-        if (ride.getStatus() != RideStatus.ASSIGNED) {
-            throw new InvalidRideStatusException("Only ASSIGNED rides can be accepted");
-        }
+        rideStatusValidator.validateTransition(ride.getStatus(), RideStatus.ACCEPTED);
 
         if (ride.getDriverId() == null || ride.getDriverId().trim().isEmpty()) {
             throw new InvalidRideStatusException("Ride cannot be accepted without an assigned driver");
@@ -126,9 +124,7 @@ public class RideServiceImpl implements RideService {
         Ride ride = rideRepository.findById(rideId)
                 .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
 
-        if (ride.getStatus() != RideStatus.ACCEPTED) {
-            throw new InvalidRideStatusException("Only ACCEPTED rides can be started");
-        }
+        rideStatusValidator.validateTransition(ride.getStatus(), RideStatus.IN_PROGRESS);
 
         if (ride.getDriverId() == null || ride.getDriverId().trim().isEmpty()) {
             throw new InvalidRideStatusException("Ride cannot start without an assigned driver");
@@ -142,19 +138,25 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
+    public RideResponse completeRide(String rideId) {
+        Ride ride = rideRepository.findById(rideId)
+                .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
+
+        rideStatusValidator.validateTransition(ride.getStatus(), RideStatus.COMPLETED);
+
+        ride.setStatus(RideStatus.COMPLETED);
+        ride.setUpdatedAt(LocalDateTime.now());
+
+        Ride savedRide = rideRepository.save(ride);
+        return mapToRideResponse(savedRide);
+    }
+
+    @Override
     public RideResponse cancelRide(String rideId) {
         Ride ride = rideRepository.findById(rideId)
                 .orElseThrow(() -> new RideNotFoundException("Ride with ID " + rideId + " was not found"));
 
-        RideStatus currentStatus = ride.getStatus();
-        boolean cancellable = currentStatus == RideStatus.REQUESTED
-                || currentStatus == RideStatus.ASSIGNED
-                || currentStatus == RideStatus.ACCEPTED;
-
-        if (!cancellable) {
-            throw new InvalidRideStatusException(
-                    "Ride cannot be cancelled in its current status: " + currentStatus);
-        }
+        rideStatusValidator.validateTransition(ride.getStatus(), RideStatus.CANCELLED);
 
         ride.setStatus(RideStatus.CANCELLED);
         ride.setUpdatedAt(LocalDateTime.now());
@@ -162,6 +164,8 @@ public class RideServiceImpl implements RideService {
         Ride savedRide = rideRepository.save(ride);
         return mapToRideResponse(savedRide);
     }
+
+    // ─── Private mapping helpers ───────────────────────────────────────────────
 
     private Location mapToLocation(LocationDto dto) {
         if (dto == null) {
