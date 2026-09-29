@@ -19,7 +19,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
  *
  * <p>Translates application exceptions into standardized {@link ErrorResponse} JSON formats.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

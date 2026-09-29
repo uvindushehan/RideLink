@@ -24,7 +24,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * {@code @CreatedDate} and {@code @LastModifiedDate} on {@link com.ridesystem.payment.model.Payment}
  * are automatically populated on save/update operations.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 @SpringBootApplication
 public class FarePaymentServiceApplication {

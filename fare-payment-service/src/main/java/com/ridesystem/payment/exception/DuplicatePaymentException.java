@@ -7,7 +7,6 @@ package com.ridesystem.payment.exception;
  * <p>The {@code rideId} field carries a unique MongoDB index, so this exception
  * is also the application-level guard before that constraint is hit at the DB level.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class DuplicatePaymentException extends RuntimeException {
 

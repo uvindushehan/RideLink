@@ -18,7 +18,6 @@ import java.math.BigDecimal;
  *
  * <p>All values use {@link BigDecimal} with scale 2 and {@code HALF_UP} rounding.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class FareCalculationResult {
 

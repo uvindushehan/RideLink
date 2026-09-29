@@ -3,7 +3,6 @@ package com.ridesystem.payment.model;
 /**
  * Supported payment methods for the Fare Payment Service.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public enum PaymentMethod {
 

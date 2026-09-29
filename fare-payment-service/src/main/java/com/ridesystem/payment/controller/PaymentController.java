@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * REST controller for the Fare Payment Service.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 @RestController
 @RequestMapping("/api/payments")

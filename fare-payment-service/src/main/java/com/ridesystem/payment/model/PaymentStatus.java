@@ -10,7 +10,6 @@ package com.ridesystem.payment.model;
  *   COMPLETED ──► REFUNDED
  * </pre>
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public enum PaymentStatus {
 

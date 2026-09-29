@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 /**
  * Request DTO for previewing fare calculation without creating a payment.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class CalculateFareRequest {
 

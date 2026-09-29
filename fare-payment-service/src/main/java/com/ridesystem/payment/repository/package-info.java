@@ -6,6 +6,5 @@
  *
  * <p>IMPORTANT: Do NOT create shared repositories with other microservices.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 package com.ridesystem.payment.repository;

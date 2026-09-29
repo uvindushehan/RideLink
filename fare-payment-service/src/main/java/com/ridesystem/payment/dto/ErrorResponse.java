@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 /**
  * Standard error response structure for the Fare Payment Service.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class ErrorResponse {
 

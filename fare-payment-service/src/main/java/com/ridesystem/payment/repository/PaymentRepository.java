@@ -17,7 +17,6 @@ import java.util.Optional;
  * <p><strong>Database:</strong> {@code fare_payment_db} — dedicated, isolated.
  * This repository does NOT interact with any other microservice database.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 @Repository
 public interface PaymentRepository extends MongoRepository<Payment, String> {

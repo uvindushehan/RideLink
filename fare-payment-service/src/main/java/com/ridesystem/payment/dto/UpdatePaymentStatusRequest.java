@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Request DTO for updating the status of an existing payment.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class UpdatePaymentStatusRequest {
 

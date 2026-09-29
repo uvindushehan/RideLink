@@ -23,7 +23,6 @@ import java.math.RoundingMode;
  * <p><strong>Constants:</strong> All rate values are centralised here as
  * named constants so they never need to be duplicated across the codebase.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 @Service
 public class FareCalculationService {

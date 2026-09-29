@@ -1,6 +1,5 @@
 # Fare Payment Service
 
-**Assignment:** IT3130 - AD Group Assignment
 
 ## Technology Stack
 - Java 17+

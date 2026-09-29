@@ -15,7 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>fare-payment-service</name>
-    <description>Fare Payment Service for RideLink - IT3130 AD Group Assignment</description>
+    <description>Fare Payment Service for RideLink</description>
 
     <properties>
         <java.version>17</java.version>

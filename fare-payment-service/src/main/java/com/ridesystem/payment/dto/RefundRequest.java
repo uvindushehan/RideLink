@@ -16,7 +16,6 @@ import java.math.BigDecimal;
  *     <li>{@code refundAmount} must not exceed the original {@code totalAmount}.</li>
  * </ul>
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class RefundRequest {
 

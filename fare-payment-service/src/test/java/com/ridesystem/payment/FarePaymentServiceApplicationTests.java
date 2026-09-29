@@ -23,7 +23,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
  *     <li>All package structures are valid and importable</li>
  * </ul>
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 class FarePaymentServiceApplicationTests {

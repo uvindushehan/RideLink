@@ -5,7 +5,6 @@ package com.ridesystem.payment.exception;
  * lifecycle rules (e.g., refunding a non-COMPLETED payment, or updating
  * a status with an illegal transition).
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class InvalidPaymentOperationException extends RuntimeException {
 

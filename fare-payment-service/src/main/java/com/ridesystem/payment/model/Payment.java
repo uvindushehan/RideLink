@@ -32,7 +32,6 @@ import java.time.LocalDateTime;
  * <p>Note: Lombok annotations removed due to Java 26 / Lombok annotation-processor
  * incompatibility (TypeTag::UNKNOWN). Getters, setters, and builder are written explicitly.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 @Document(collection = "payments")
 public class Payment {

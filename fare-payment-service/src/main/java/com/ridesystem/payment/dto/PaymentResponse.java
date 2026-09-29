@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * Response DTO returned to API clients for all payment operations.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class PaymentResponse {
 

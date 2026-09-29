@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
  * <p><strong>Injection:</strong> Dependencies are injected via constructor (not field
  * injection) to support testability and make dependencies explicit.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 @Service
 public class PaymentService {

@@ -3,7 +3,6 @@ package com.ridesystem.payment.exception;
 /**
  * Thrown when a Payment document cannot be found by the given identifier.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class PaymentNotFoundException extends RuntimeException {
 

@@ -13,7 +13,6 @@ import java.math.BigDecimal;
  * <p>The fare breakdown is calculated server-side by {@code FareCalculationService}.
  * Clients only supply ride inputs (distance, duration) and payment method.
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 public class CreatePaymentRequest {
 

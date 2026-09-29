@@ -8,6 +8,5 @@
  *     <li>Date/time utilities</li>
  * </ul>
  *
- * <p>IT3130 AD Group Assignment — RideLink System
  */
 package com.ridesystem.payment.util;
