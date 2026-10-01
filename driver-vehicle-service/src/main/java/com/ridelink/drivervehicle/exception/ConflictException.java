@@ -1,4 +1,4 @@
-package com.ridelink.driver.exception;
+package com.ridelink.drivervehicle.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

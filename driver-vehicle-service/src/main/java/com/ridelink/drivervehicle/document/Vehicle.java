@@ -1,4 +1,4 @@
-package com.ridelink.driver.document;
+package com.ridelink.drivervehicle.document;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
-import com.ridelink.driver.enums.VehicleStatus;
+import com.ridelink.drivervehicle.enums.VehicleStatus;
 
 @Document(collection = "vehicles")
 public class Vehicle {

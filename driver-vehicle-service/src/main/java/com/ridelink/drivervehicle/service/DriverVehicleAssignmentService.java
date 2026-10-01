@@ -1,17 +1,17 @@
-package com.ridelink.driver.service;
+package com.ridelink.drivervehicle.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ridelink.driver.document.DriverVehicleAssignment;
-import com.ridelink.driver.document.Vehicle;
-import com.ridelink.driver.enums.VehicleStatus;
+import com.ridelink.drivervehicle.document.DriverVehicleAssignment;
+import com.ridelink.drivervehicle.document.Vehicle;
+import com.ridelink.drivervehicle.enums.VehicleStatus;
 import com.ridelink.drivervehicle.document.Driver;
 import com.ridelink.drivervehicle.repository.DriverRepository;
-import com.ridelink.driver.repository.DriverVehicleAssignmentRepository;
-import com.ridelink.driver.repository.VehicleRepository;
+import com.ridelink.drivervehicle.repository.DriverVehicleAssignmentRepository;
+import com.ridelink.drivervehicle.repository.VehicleRepository;
 
 @Service
 public class DriverVehicleAssignmentService {
@@ -30,26 +30,26 @@ public class DriverVehicleAssignmentService {
 
     public DriverVehicleAssignment createAssignment(String driverId, String vehicleId) {
         Driver driver = driverRepository.findById(driverId)
-                .orElseThrow(() -> new com.ridelink.driver.exception.ResourceNotFoundException("Driver not found with id: " + driverId));
+                .orElseThrow(() -> new com.ridelink.drivervehicle.exception.ResourceNotFoundException("Driver not found with id: " + driverId));
                 
         Vehicle vehicle = vehicleRepository.findById(vehicleId)
-                .orElseThrow(() -> new com.ridelink.driver.exception.ResourceNotFoundException("Vehicle not found with id: " + vehicleId));
+                .orElseThrow(() -> new com.ridelink.drivervehicle.exception.ResourceNotFoundException("Vehicle not found with id: " + vehicleId));
 
         if (driver.getAvailabilityStatus() == com.ridelink.drivervehicle.enums.DriverAvailability.INACTIVE || 
             driver.getAvailabilityStatus() == com.ridelink.drivervehicle.enums.DriverAvailability.SUSPENDED) {
-            throw new com.ridelink.driver.exception.BadRequestException("Cannot assign driver with status: " + driver.getAvailabilityStatus());
+            throw new com.ridelink.drivervehicle.exception.BadRequestException("Cannot assign driver with status: " + driver.getAvailabilityStatus());
         }
 
         if (vehicle.getStatus() == VehicleStatus.MAINTENANCE || vehicle.getStatus() == VehicleStatus.INACTIVE) {
-            throw new com.ridelink.driver.exception.BadRequestException("Cannot assign vehicle with status: " + vehicle.getStatus());
+            throw new com.ridelink.drivervehicle.exception.BadRequestException("Cannot assign vehicle with status: " + vehicle.getStatus());
         }
 
         if (assignmentRepository.existsByDriverIdAndActive(driverId, true)) {
-            throw new com.ridelink.driver.exception.ConflictException("Driver already has an active vehicle assignment.");
+            throw new com.ridelink.drivervehicle.exception.ConflictException("Driver already has an active vehicle assignment.");
         }
 
         if (assignmentRepository.existsByVehicleIdAndActive(vehicleId, true)) {
-            throw new com.ridelink.driver.exception.ConflictException("Vehicle already has an active driver assignment.");
+            throw new com.ridelink.drivervehicle.exception.ConflictException("Vehicle already has an active driver assignment.");
         }
 
         DriverVehicleAssignment assignment = new DriverVehicleAssignment(
@@ -75,7 +75,7 @@ public class DriverVehicleAssignmentService {
 
     public DriverVehicleAssignment getAssignmentById(String id) {
         return assignmentRepository.findById(id)
-                .orElseThrow(() -> new com.ridelink.driver.exception.ResourceNotFoundException("Assignment not found with id: " + id));
+                .orElseThrow(() -> new com.ridelink.drivervehicle.exception.ResourceNotFoundException("Assignment not found with id: " + id));
     }
 
     public List<DriverVehicleAssignment> getAssignmentsByDriverId(String driverId) {
@@ -88,12 +88,12 @@ public class DriverVehicleAssignmentService {
         DriverVehicleAssignment savedAssignment = assignmentRepository.save(assignment);
         
         Driver driver = driverRepository.findById(assignment.getDriverId())
-                .orElseThrow(() -> new com.ridelink.driver.exception.ResourceNotFoundException("Driver not found with id: " + assignment.getDriverId()));
+                .orElseThrow(() -> new com.ridelink.drivervehicle.exception.ResourceNotFoundException("Driver not found with id: " + assignment.getDriverId()));
         driver.setAvailabilityStatus(com.ridelink.drivervehicle.enums.DriverAvailability.AVAILABLE);
         driverRepository.save(driver);
         
         Vehicle vehicle = vehicleRepository.findById(assignment.getVehicleId())
-                .orElseThrow(() -> new com.ridelink.driver.exception.ResourceNotFoundException("Vehicle not found with id: " + assignment.getVehicleId()));
+                .orElseThrow(() -> new com.ridelink.drivervehicle.exception.ResourceNotFoundException("Vehicle not found with id: " + assignment.getVehicleId()));
         vehicle.setStatus(VehicleStatus.AVAILABLE);
         vehicleRepository.save(vehicle);
         

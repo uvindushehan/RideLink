@@ -1,4 +1,4 @@
-package com.ridelink.driver.controller;
+package com.ridelink.drivervehicle.controller;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ridelink.driver.document.DriverVehicleAssignment;
-import com.ridelink.driver.service.DriverVehicleAssignmentService;
+import com.ridelink.drivervehicle.document.DriverVehicleAssignment;
+import com.ridelink.drivervehicle.service.DriverVehicleAssignmentService;
 
 @RestController
 @RequestMapping("/api/driver-vehicle-assignments")

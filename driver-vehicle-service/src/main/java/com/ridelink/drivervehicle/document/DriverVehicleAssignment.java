@@ -1,4 +1,4 @@
-package com.ridelink.driver.document;
+package com.ridelink.drivervehicle.document;
 
 import java.time.LocalDateTime;
 

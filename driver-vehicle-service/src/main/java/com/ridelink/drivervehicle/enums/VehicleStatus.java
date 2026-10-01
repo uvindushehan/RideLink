@@ -1,4 +1,4 @@
-package com.ridelink.driver.enums;
+package com.ridelink.drivervehicle.enums;
 
 public enum VehicleStatus {
     AVAILABLE,

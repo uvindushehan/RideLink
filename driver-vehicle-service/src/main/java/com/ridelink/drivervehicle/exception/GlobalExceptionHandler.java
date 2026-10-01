@@ -1,4 +1,4 @@
-package com.ridelink.driver.exception;
+package com.ridelink.drivervehicle.exception;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -1,4 +1,4 @@
-package com.ridelink.driver.controller;
+package com.ridelink.drivervehicle.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ridelink.driver.document.Vehicle;
-import com.ridelink.driver.service.VehicleService;
+import com.ridelink.drivervehicle.document.Vehicle;
+import com.ridelink.drivervehicle.service.VehicleService;
 
 @RestController
 @RequestMapping("/api/vehicles")
@@ -56,7 +56,7 @@ public class VehicleController {
     }
 
     @org.springframework.web.bind.annotation.PatchMapping("/{id}/status")
-        public ResponseEntity<Vehicle> updateVehicleStatus(@PathVariable String id, @RequestBody com.ridelink.driver.enums.VehicleStatus status) {
+        public ResponseEntity<Vehicle> updateVehicleStatus(@PathVariable String id, @RequestBody com.ridelink.drivervehicle.enums.VehicleStatus status) {
         Vehicle updatedVehicle = vehicleService.updateVehicleStatus(id, status);
         return ResponseEntity.ok(updatedVehicle);
     }

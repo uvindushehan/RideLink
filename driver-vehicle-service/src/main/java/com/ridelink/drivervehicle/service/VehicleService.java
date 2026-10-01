@@ -1,11 +1,11 @@
-package com.ridelink.driver.service;
+package com.ridelink.drivervehicle.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ridelink.driver.document.Vehicle;
-import com.ridelink.driver.repository.VehicleRepository;
+import com.ridelink.drivervehicle.document.Vehicle;
+import com.ridelink.drivervehicle.repository.VehicleRepository;
 
 @Service
 public class VehicleService {
@@ -26,7 +26,7 @@ public class VehicleService {
 
     public Vehicle getVehicleById(String id) {
         return vehicleRepository.findById(id)
-                .orElseThrow(() -> new com.ridelink.driver.exception.ResourceNotFoundException("Vehicle not found with ID: " + id));
+                .orElseThrow(() -> new com.ridelink.drivervehicle.exception.ResourceNotFoundException("Vehicle not found with ID: " + id));
     }
 
     public Vehicle updateVehicle(String id, Vehicle vehicleUpdates) {
@@ -45,7 +45,7 @@ public class VehicleService {
         return vehicleRepository.save(existingVehicle);
     }
 
-    public Vehicle updateVehicleStatus(String vehicleId, com.ridelink.driver.enums.VehicleStatus status) {
+    public Vehicle updateVehicleStatus(String vehicleId, com.ridelink.drivervehicle.enums.VehicleStatus status) {
         Vehicle existingVehicle = getVehicleById(vehicleId);
         existingVehicle.setStatus(status);
         existingVehicle.setUpdatedAt(java.time.LocalDateTime.now());
