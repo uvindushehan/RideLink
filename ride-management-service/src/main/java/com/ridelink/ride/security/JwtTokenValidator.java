@@ -34,6 +34,7 @@ public class JwtTokenValidator {
         return claims.getSubject();
     }
 
+    @SuppressWarnings("unchecked")
     public List<String> getRolesFromToken(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         Object roles = claims.get("roles");
@@ -42,6 +43,12 @@ public class JwtTokenValidator {
         } else if (roles instanceof String) {
             return Collections.singletonList((String) roles);
         }
+
+        Object role = claims.get("role");
+        if (role instanceof String) {
+            return Collections.singletonList((String) role);
+        }
+
         return Collections.emptyList();
     }
 }
