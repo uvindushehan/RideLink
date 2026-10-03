@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ridelink.drivervehicle.document.Driver;
+import com.ridelink.drivervehicle.enums.DriverAvailability;
 import com.ridelink.drivervehicle.repository.DriverRepository;
 
 @Service
@@ -22,6 +23,10 @@ public class DriverService {
 
     public List<Driver> getAllDrivers() {
         return driverRepository.findAll();
+    }
+
+    public List<Driver> getAvailableDrivers() {
+        return driverRepository.findByAvailabilityStatus(DriverAvailability.AVAILABLE);
     }
 
     public Driver getDriverById(String id) {

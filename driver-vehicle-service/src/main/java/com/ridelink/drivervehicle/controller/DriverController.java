@@ -33,12 +33,17 @@ public class DriverController {
     }
 
     @GetMapping
-        public ResponseEntity<List<Driver>> getAllDrivers() {
+    public ResponseEntity<List<Driver>> getAllDrivers() {
         return ResponseEntity.ok(driverService.getAllDrivers());
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<List<Driver>> getAvailableDrivers() {
+        return ResponseEntity.ok(driverService.getAvailableDrivers());
+    }
+
     @GetMapping("/{id}")
-        public ResponseEntity<Driver> getDriverById(@PathVariable String id) {
+    public ResponseEntity<Driver> getDriverById(@PathVariable String id) {
         Driver driver = driverService.getDriverById(id);
         return ResponseEntity.ok(driver);
     }
