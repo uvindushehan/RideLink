@@ -39,6 +39,12 @@ The Fare Payment Service manages the lifecycle of ride payments, handles server-
 
 ---
 
+## Group Service Port Plan
+- **Fare Payment Service:** `8083`
+*(Do not invent ports for other services if they are not already documented)*
+
+---
+
 ## How to Run the Project
 
 ### Prerequisites
